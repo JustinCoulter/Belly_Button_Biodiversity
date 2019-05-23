@@ -30,7 +30,7 @@ function buildCharts(sample) {
   
   d3.json(url).then(function(data) {
 
-    console.log(data);
+    // console.log(data);
 
     var trace1 = {
         labels: data.otu_ids.slice(0,10),
@@ -41,7 +41,7 @@ function buildCharts(sample) {
     var dataPie = [trace1];
 
     var layout = {
-      title: "Pie Chart",
+      // title: "Pie Chart",
     };
     
     Plotly.newPlot("pie", dataPie, layout);
@@ -54,17 +54,29 @@ function buildCharts(sample) {
         mode:'markers',
         marker: { 
           size:data.sample_values,
-          color:data.otu_ids
+          color:data.otu_ids,
+          sizeref: 1.5,
+          sizemode: 'diameter'
         }
         
     };
 
     var layout = {
-      title: "Bubble Chart"
+      // title: "Bubble Chart",
+      xaxis: {
+        title: {
+          text: 'OTU ID',
+          font: {
+            family: 'Courier New, monospace',
+            size: 18,
+            color: '#7f7f7f'
+          }
+        },
+      },
     }
     var dataBubble = [trace2];
     
-    Plotly.newPlot("bubble", dataBubble, layout);    
+    Plotly.newPlot("bubble", dataBubble, layout, {scrollZoom: true});    
     
 
   });
@@ -74,6 +86,8 @@ function buildCharts(sample) {
     // HINT: You will need to use slice() to grab the top 10 sample_values,
     // otu_ids, and labels (10 each).
 }
+
+
 
 function init() {
   // Grab a reference to the dropdown select element
@@ -92,6 +106,7 @@ function init() {
     const firstSample = sampleNames[0];
     buildCharts(firstSample);
     buildMetadata(firstSample);
+    buildGauge(firstSample);
   });
 }
 
@@ -99,6 +114,7 @@ function optionChanged(newSample) {
   // Fetch new data each time a new sample is selected
   buildCharts(newSample);
   buildMetadata(newSample);
+  buildGauge(newSample);
 }
 
 // Initialize the dashboard
