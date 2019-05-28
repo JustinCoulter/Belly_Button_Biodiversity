@@ -97,7 +97,7 @@ def samples(sample):
     }
     return jsonify(data)
 
-
+# added this route for the bonus portion of the assignment
 @app.route("/wfreq/<sample>")
 def wfreq(sample):
 # return the wfreq
@@ -113,7 +113,7 @@ def wfreq(sample):
     results = db.session.query(*sel).filter(Samples_Metadata.sample == sample).all()
     sample_wfreq = {}
     for result in results:
-        # sample_wfreq["sample"] = result[0]        
+          
         sample_wfreq["WFREQ"] = result[6]
 
     print(sample_wfreq)

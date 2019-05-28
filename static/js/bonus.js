@@ -1,5 +1,5 @@
 function buildGauge(sample) {
-    
+//   create a route to engage the provided function  
     const url =`/wfreq/${sample}`;
 
     d3.json(url).then(function(sample) {
@@ -67,7 +67,7 @@ function buildGauge(sample) {
         };
         Plotly.newPlot('gauge', data, layout);
     });
-    // Plotly.newPlot('gauge', data, layout);
+
     
 
 }

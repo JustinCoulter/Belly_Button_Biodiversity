@@ -1,15 +1,17 @@
 function buildMetadata(sample) {
- 
+//  use the provided route to the sample metadata
   const url =`/metadata/${sample}`;
   console.log(url);
+// vairable to hold html element
   const metaMeta = d3.select("#sample-metadata");
   
-
+// use d3 to read json file for each sample 
   d3.json(url).then(function(data) {
     // console.log(data);
 
     metaMeta.html(""); 
-
+// return key value pairs for each object in the metadata
+//  append a new paragraph for each
     Object.entries(data).forEach(function([key,value]) {    
       const cell = metaMeta.append("p");
       cell.text(`${key}: ${value}`);
@@ -17,21 +19,16 @@ function buildMetadata(sample) {
 
   });
 
-    // BONUS: Build the Gauge Chart
-    // buildGauge(data.WFREQ);
+
 }
 
 function buildCharts(sample) {
-
+// build a pie chart returning the top 10 microbes for a sample
   const url =`/samples/${sample}`;
   // console.log(url);
-  // const piePie = d3.select("#pie");
-
   
   d3.json(url).then(function(data) {
-
     // console.log(data);
-
     var trace1 = {
         labels: data.otu_ids.slice(0,10),
         values: data.sample_values.slice(0,10),
@@ -43,9 +40,10 @@ function buildCharts(sample) {
     var layout = {
       // title: "Pie Chart",
     };
-    
+// plot the pie chart
     Plotly.newPlot("pie", dataPie, layout);
 
+// build a bubble chart to show sample values per sample ID
     var trace2 = {
         type: "scatter",
         x:data.otu_ids,
@@ -75,16 +73,9 @@ function buildCharts(sample) {
       },
     }
     var dataBubble = [trace2];
-    
-    Plotly.newPlot("bubble", dataBubble, layout, {scrollZoom: true});    
-    
-
+//  plot the bubble chart
+    Plotly.newPlot("bubble", dataBubble, layout, {scrollZoom: true});        
   });
-    // @TODO: Build a Bubble Chart using the sample data
-
-    // @TODO: Build a Pie Chart
-    // HINT: You will need to use slice() to grab the top 10 sample_values,
-    // otu_ids, and labels (10 each).
 }
 
 
